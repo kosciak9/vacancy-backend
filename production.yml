@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+  xintai_db:
+    image: postgres:9.6
+    volumes:
+        - xintai_db:/var/lib/postgresql/data
+
+  xintai_app:
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+    image: web
+    build: ./
+    volumes:
+      - ./:/code
+    ports:
+      - "8001:8000"
+    depends_on:
+      - xintai_db
+
+volumes:
+    xintai_db:
