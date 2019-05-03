@@ -31,7 +31,8 @@ def per_user_priority_availability(request):
     interval = timedelta(hours=interval.hour, minutes=interval.minute)
     hour_count = player.team.hour_count
     days_ahead = player.team.priority_days_ahead
-    iteration_date = date.today()
+    weekday_date = date.today().weekday()
+    iteration_date = date.today() + timedelta(days=7-weekday_date)
     priority_availability = []
     for _i in range(days_ahead):
         day = { 'date': iteration_date.isoformat(), 'availability': [] }
