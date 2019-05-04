@@ -16,4 +16,4 @@ EXPOSE 8000
 # Migrates the database, uploads staticfiles, and runs the production server
 CMD ./manage.py migrate && \
     ./manage.py collectstatic --noinput && \
-    newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - xintai.wsgi:application
+    newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - vacancy.wsgi:application

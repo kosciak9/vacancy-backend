@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from xintai.users.models import Availability, Position, Team, User
+from vacancy.users.models import Availability, Position, Team, User
 
 
 class UserSerializer(serializers.ModelSerializer):

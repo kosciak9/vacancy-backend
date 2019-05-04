@@ -8,7 +8,7 @@ import os
 
 from configurations.wsgi import get_wsgi_application  # noqa
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xintai.config")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vacancy.config")
 os.environ.setdefault("DJANGO_CONFIGURATION", "Production")
 
 application = get_wsgi_application()

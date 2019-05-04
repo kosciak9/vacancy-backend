@@ -27,7 +27,7 @@ class Common(Configuration):
         'djoser',
 
         # Your apps
-        'xintai.users',
+        'vacancy.users',
 
     )
 
@@ -45,9 +45,9 @@ class Common(Configuration):
     )
 
     ALLOWED_HOSTS = ["*"]
-    ROOT_URLCONF = 'xintai.urls'
+    ROOT_URLCONF = 'vacancy.urls'
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-    WSGI_APPLICATION = 'xintai.wsgi.application'
+    WSGI_APPLICATION = 'vacancy.wsgi.application'
 
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -59,7 +59,7 @@ class Common(Configuration):
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
-            default='postgres://xintai:@xintai_db:5432/xintai',
+            default='postgres://vacancy:@vacancy_db:5432/vacancy',
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }

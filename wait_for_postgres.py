@@ -8,10 +8,10 @@ CHECK_TIMEOUT = int(os.getenv("POSTGRES_CHECK_TIMEOUT", "30"))
 CHECK_INTERVAL = int(os.getenv("POSTGRES_CHECK_INTERVAL", "1"))
 INTERVAL_UNIT = "second" if CHECK_INTERVAL == 1 else "seconds"
 CONFIG = {
-    "dbname": os.getenv("POSTGRES_DB", "xintai"),
-    "user": os.getenv("POSTGRES_USER", "xintai"),
+    "dbname": os.getenv("POSTGRES_DB", "vacancy"),
+    "user": os.getenv("POSTGRES_USER", "vacancy"),
     "password": os.getenv("POSTGRES_PASSWORD", ""),
-    "host": os.getenv("DATABASE_URL", "xintai_db")
+    "host": os.getenv("DATABASE_URL", "vacancy_db")
 }
 
 START_TIME = time()

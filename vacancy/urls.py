@@ -5,7 +5,7 @@ from django.urls import include, path, re_path, reverse_lazy
 from django.views.generic.base import RedirectView
 
 from rest_framework.routers import DefaultRouter
-from xintai.users.views import (AvailabilityViewSet, PositionViewSet,
+from vacancy.users.views import (AvailabilityViewSet, PositionViewSet,
                                 TeamViewSet, UserViewSet,
                                 per_user_priority_availability)
 

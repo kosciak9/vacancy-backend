@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xintai.config")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vacancy.config")
     os.environ.setdefault("DJANGO_CONFIGURATION", "Local")
 
     try:

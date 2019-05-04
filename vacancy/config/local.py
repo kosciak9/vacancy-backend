@@ -18,7 +18,7 @@ class Local(Common):
         '--nologcapture',
         '--with-coverage',
         '--with-progressive',
-        '--cover-package=xintai'
+        '--cover-package=vacancy'
     ]
 
     # Mail

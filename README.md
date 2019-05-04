@@ -1,9 +1,9 @@
-# xintai
+# vacancy
 
-[![Build Status](https://travis-ci.org/kosciak9/xintai.svg?branch=master)](https://travis-ci.org/kosciak9/xintai)
+[![Build Status](https://travis-ci.org/kosciak9/vacancy.svg?branch=master)](https://travis-ci.org/kosciak9/vacancy)
 [![Built with](https://img.shields.io/badge/Built_with-Cookiecutter_Django_Rest-F7B633.svg)](https://github.com/agconti/cookiecutter-django-rest)
 
-Backend for Obecność. Check out the project's [documentation](http://kosciak9.github.io/xintai/).
+Backend for Obecność. Check out the project's [documentation](http://kosciak9.github.io/vacancy/).
 
 # Prerequisites
 
@@ -31,31 +31,31 @@ Deployment is automated via Travis. When builds pass on the master or qa branch,
 Initialize the production server:
 
 ```
-heroku create xintai-prod --remote prod && \
-    heroku addons:create newrelic:wayne --app xintai-prod && \
-    heroku addons:create heroku-postgresql:hobby-dev --app xintai-prod && \
+heroku create vacancy-prod --remote prod && \
+    heroku addons:create newrelic:wayne --app vacancy-prod && \
+    heroku addons:create heroku-postgresql:hobby-dev --app vacancy-prod && \
     heroku config:set DJANGO_SECRET_KEY=`openssl rand -base64 32` \
         DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
         DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
-        DJANGO_AWS_STORAGE_BUCKET_NAME="xintai-prod" \
+        DJANGO_AWS_STORAGE_BUCKET_NAME="vacancy-prod" \
         DJANGO_CONFIGURATION="Production" \
-        DJANGO_SETTINGS_MODULE="xintai.config" \
-        --app xintai-prod
+        DJANGO_SETTINGS_MODULE="vacancy.config" \
+        --app vacancy-prod
 ```
 
 Initialize the qa server:
 
 ```
-heroku create xintai-qa --remote qa && \
-    heroku addons:create newrelic:wayne --app xintai-qa && \
-    heroku addons:create heroku-postgresql:hobby-dev --app xintai-qa && \
+heroku create vacancy-qa --remote qa && \
+    heroku addons:create newrelic:wayne --app vacancy-qa && \
+    heroku addons:create heroku-postgresql:hobby-dev --app vacancy-qa && \
     heroku config:set DJANGO_SECRET_KEY=`openssl rand -base64 32` \
         DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
         DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
-        DJANGO_AWS_STORAGE_BUCKET_NAME="xintai-qa" \
+        DJANGO_AWS_STORAGE_BUCKET_NAME="vacancy-qa" \
         DJANGO_CONFIGURATION="Production" \
-        DJANGO_SETTINGS_MODULE="xintai.config" \
-        --app xintai-qa
+        DJANGO_SETTINGS_MODULE="vacancy.config" \
+        --app vacancy-qa
 ```
 
 Securely add your Heroku credentials to Travis so that it can automatically deploy your changes:

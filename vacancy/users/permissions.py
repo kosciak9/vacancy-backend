@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from xintai.users.models import Availability, Team, User
+from vacancy.users.models import Availability, Team, User
 
 
 class OwnTeamOrPermissionDenied(permissions.BasePermission):

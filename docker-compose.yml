@@ -1,20 +1,21 @@
 version: '3.5'
 
 services:
-  xintai_db:
-    container_name: xintai_db
+  vacancy_db:
+    container_name: vacancy_db
     image: postgres:9.6
     environment:
-      - POSTGRES_USER=xintai
-      - POSTGRES_DB=xintai
-  xintai_app:
-    container_name: xintai_app
+      - POSTGRES_USER=vacancy
+      - POSTGRES_DB=vacancy
+  vacancy_app:
+    container_name: vacancy_app
     environment:
       - DJANGO_SECRET_KEY=local
     image: web
     build: ./
     command: >
       bash -c "python wait_for_postgres.py &&
+               ./manage.py makemigrations &&
                ./manage.py migrate &&
                ./manage.py runserver 0.0.0.0:8000"
     volumes:
@@ -22,4 +23,4 @@ services:
     ports:
       - "8001:8000"
     depends_on:
-      - xintai_db
+      - vacancy_db
