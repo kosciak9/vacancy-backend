@@ -11,7 +11,7 @@ CONFIG = {
     "dbname": os.getenv("POSTGRES_DB", "vacancy"),
     "user": os.getenv("POSTGRES_USER", "vacancy"),
     "password": os.getenv("POSTGRES_PASSWORD", ""),
-    "host": os.getenv("DATABASE_URL", "vacancy_db")
+    "host": os.getenv("DATABASE_URL", "vacancy_db"),
 }
 
 START_TIME = time()
@@ -31,8 +31,10 @@ def pg_isready(host, user, password, dbname):
             conn.close()
             return True
         except psycopg2.OperationalError:
-            LOGGER.info("Postgres isn't ready. "
-                        f"Waiting for {CHECK_INTERVAL} {INTERVAL_UNIT}...")
+            LOGGER.info(
+                "Postgres isn't ready. "
+                f"Waiting for {CHECK_INTERVAL} {INTERVAL_UNIT}..."
+            )
             sleep(CHECK_INTERVAL)
 
     LOGGER.error(f"We could not connect to Postgres within {CHECK_TIMEOUT} seconds.")

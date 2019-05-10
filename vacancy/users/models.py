@@ -27,18 +27,17 @@ class AdditionalPerk(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=200)
-    captain = models.ForeignKey(related_name='Captain',
-                                to='User',
-                                on_delete=models.CASCADE)
-    interval = models.TimeField(default='1:30')
-    start_hour = models.TimeField(default='8:30')
+    captain = models.ForeignKey(
+        related_name="Captain", to="User", on_delete=models.CASCADE
+    )
+    interval = models.TimeField(default="1:30")
+    start_hour = models.TimeField(default="8:30")
     hour_count = models.IntegerField(default=10)
     days_ahead = models.IntegerField(default=28)
     priority_days_ahead = models.IntegerField(default=7)
 
     def priority_fill_date(self):
-        current_day = datetime.now().replace(hour=0, minute=0, second=0,
-                                             microsecond=0)
+        current_day = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         current_weekday = current_day.isocalendar()[2] - 1  # start on Monday
         delta = timedelta(days=current_weekday)
         current_day = current_day - delta
@@ -47,8 +46,7 @@ class Team(models.Model):
         return current_day
 
     def fill_date(self):
-        current_day = datetime.now().replace(hour=0, minute=0, second=0,
-                                             microsecond=0)
+        current_day = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         current_weekday = current_day.isocalendar()[2] - 1  # start on Monday
         delta = timedelta(days=current_weekday)
         current_day = current_day - delta
@@ -70,10 +68,9 @@ class User(AbstractUser):
 
     team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
     additional_perks = models.ManyToManyField(AdditionalPerk, blank=True)
-    locale = models.CharField(max_length=2, choices=(
-        ('en', 'English'),
-        ('pl', 'Polski'),
-    ), default='pl')
+    locale = models.CharField(
+        max_length=2, choices=(("en", "English"), ("pl", "Polski")), default="pl"
+    )
 
     def __str__(self):
         return self.username
@@ -92,18 +89,16 @@ class Availability(models.Model):
     available = models.BooleanField(default=True)
 
     def __str__(self):
-        sep = ' isn\'t on '
+        sep = " isn't on "
         if self.available:
-            sep = ' is on '
-        return (str(self.player) + sep + str(self.date) + ' ' + str(self.time))
+            sep = " is on "
+        return str(self.player) + sep + str(self.date) + " " + str(self.time)
 
     def save(self, *args, **kwargs):
         if self.pk is None:
             try:
                 combination = Availability.objects.get(
-                    date=self.date,
-                    time=self.time,
-                    player=self.player
+                    date=self.date, time=self.time, player=self.player
                 )
                 self.pk = combination.pk
             except Availability.DoesNotExist:
