@@ -30,6 +30,7 @@ boto3 = "*"
 Django = "*"
 Markdown = "*"
 factory_boy = "*"
+coveralls = "*"
 
 [dev-packages]
 
