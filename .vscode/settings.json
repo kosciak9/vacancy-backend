@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "/home/kosciak/.local/share/virtualenvs/vacancy-backend-F--jdlGr/bin/python",
+    "python.formatting.provider": "black",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
+}
