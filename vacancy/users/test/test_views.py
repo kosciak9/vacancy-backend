@@ -1,59 +1,120 @@
-from django.contrib.auth.hashers import check_password
-from django.forms.models import model_to_dict
-from django.urls import reverse
-from nose.tools import eq_, ok_
-
-from faker import Faker
-from rest_framework import status
+import pytest
+from vacancy.users.models import User, Team, Position, Availability
 from rest_framework.test import APITestCase
+from rest_framework import status
 
-from ..models import User
-from .factories import UserFactory
+from mixer.backend.django import mixer
 
-fake = Faker()
+pytestmark = pytest.mark.django_db
 
 
-class TestUserListTestCase(APITestCase):
-    """
-    Tests /users list operations.
-    """
-
+class TestPermissions(APITestCase):
     def setUp(self):
-        self.url = reverse("user-list")
-        self.user_data = model_to_dict(UserFactory.build())
+        """
+        we setup environement with:
+        group A (standard): team, user, position and availability
+        group B (other): team, user, position and availability
+        group A captain (user) shouldn't be allowed to see objects from group B
+        """
 
-    def test_post_request_with_no_data_fails(self):
-        response = self.client.post(self.url, {})
-        eq_(response.status_code, status.HTTP_400_BAD_REQUEST)
+        # group A
+        self.standard_user = User.objects.create_user(
+            "standard_user", "jan@kowalski.com", "hunter2"
+        )
+        self.standard_team = mixer.blend(Team, captain=self.standard_user)
+        self.standard_team.save()
+        self.standard_user.team = self.standard_team
+        self.standard_user.save()
+        self.standard_position = mixer.blend(Position, team=self.standard_team)
+        self.standard_position.save()
+        self.standard_availability = mixer.blend(
+            Availability, player=self.standard_user
+        )
+        self.standard_availability.save()
 
-    def test_post_request_with_valid_data_succeeds(self):
-        response = self.client.post(self.url, self.user_data)
-        eq_(response.status_code, status.HTTP_201_CREATED)
+        # group B
+        self.other_user = User.objects.create_user(
+            "other_user", "jan@kowalski.com", "hunter2"
+        )
+        self.other_team = mixer.blend(Team, captain=self.other_user)
+        self.other_team.save()
+        self.other_user.team = self.other_team
+        self.other_user.save()
+        self.other_position = mixer.blend(Position, team=self.other_team)
+        self.other_position.save()
+        self.other_availability = mixer.blend(Availability, player=self.other_user)
+        self.other_availability.save()
+        self.client.login(username="standard_user", password="hunter2")
 
-        user = User.objects.get(pk=response.data.get("id"))
-        eq_(user.username, self.user_data.get("username"))
-        ok_(check_password(self.user_data.get("password"), user.password))
+    def test_get_team(self):
+        response = self.client.get(f"/v1/teams/{self.standard_team.id}/")
+        assert str(self.standard_team.id) in response.content.decode()
+        response = self.client.get(f"/v1/teams/{self.other_team.id}/")
+        assert str(self.other_team.id) not in response.content.decode()
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
+    def test_get_user(self):
+        response = self.client.get(f"/v1/users/{self.standard_user.id}/")
+        assert str(self.standard_user.id) in response.content.decode()
+        response = self.client.get(f"/v1/users/{self.other_user.id}/")
+        assert str(self.other_user.id) not in response.content.decode()
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
-class TestUserDetailTestCase(APITestCase):
-    """
-    Tests /users detail operations.
-    """
+    def test_get_availability(self):
+        response = self.client.get(f"/v1/availability/{self.standard_availability.id}/")
+        assert str(self.standard_availability.id) in response.content.decode()
+        response = self.client.get(f"/v1/availability/{self.other_availability.id}/")
+        assert str(self.other_availability.id) not in response.content.decode()
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.url = reverse("user-detail", kwargs={"pk": self.user.pk})
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token}")
+    def test_post_team(self):
+        response = self.client.post(
+            f"/v1/teams/", {"name": "Test Team", "captain": self.standard_user.id}
+        )
+        assert response.status_code == status.HTTP_201_CREATED
 
-    def test_get_request_returns_a_given_user(self):
-        response = self.client.get(self.url)
-        eq_(response.status_code, status.HTTP_200_OK)
+    def test_post_user(self):
+        response = self.client.post(f"/v1/users/", {"username": "test_user"})
+        assert response.status_code == status.HTTP_201_CREATED
 
-    def test_put_request_updates_a_user(self):
-        new_first_name = fake.first_name()
-        payload = {"first_name": new_first_name}
-        response = self.client.put(self.url, payload)
-        eq_(response.status_code, status.HTTP_200_OK)
+    def test_post_availability(self):
+        response = self.client.post(
+            f"/v1/availability/",
+            {
+                "available": True,
+                "player": self.standard_user.id,
+                "date": "2019-01-01",
+                "time": "08:30:00",
+            },
+        )
+        assert response.status_code == status.HTTP_201_CREATED
 
-        user = User.objects.get(pk=self.user.id)
-        eq_(user.first_name, new_first_name)
+    def test_patch_team(self):
+        response = self.client.patch(
+            f"/v1/teams/{self.standard_team.id}/", {"name": "Standard Team"}
+        )
+        assert response.status_code == status.HTTP_200_OK
+        response = self.client.patch(
+            f"/v1/teams/{self.other_team.id}/", {"name": "Standard Team"}
+        )
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_patch_user(self):
+        response = self.client.patch(
+            f"/v1/users/{self.standard_user.id}/", {"username": "test_user"}
+        )
+        assert response.status_code == status.HTTP_200_OK
+        response = self.client.patch(
+            f"/v1/users/{self.other_user.id}/", {"username": "test_user"}
+        )
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_patch_availability(self):
+        response = self.client.patch(
+            f"/v1/availability/{self.standard_availability.id}/", {"available": False}
+        )
+        assert response.status_code == status.HTTP_200_OK
+        response = self.client.patch(
+            f"/v1/availability/{self.other_availability.id}/", {"available": False}
+        )
+        assert response.status_code == status.HTTP_403_FORBIDDEN

@@ -30,6 +30,11 @@ Django = "*"
 Markdown = "*"
 factory_boy = "*"
 coveralls = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-django = "*"
+pytest-pudb = "*"
+mixer = "*"
 
 [dev-packages]
 flake8 = "*"

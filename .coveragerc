@@ -5,6 +5,6 @@ omit = *migrations*,
        *test*,
        *admin*,
        ./manage.py,
-       ./xintai/config/*,
-       ./xintai/wsgi.py,
+       ./vacancy/config/*,
+       ./vacancy/wsgi.py,
        *__init__*

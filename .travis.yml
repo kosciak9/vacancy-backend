@@ -1,14 +1,19 @@
 language: python
-dist: "xenial"
+dist: xenial
 python:
-  - "3.7"
+- '3.7'
 install:
-  - "pip install pipenv"
-  - "pipenv --version"
-  - "pipenv install --system --deploy --ignore-pipfile"
+- pip install pipenv
+- pipenv --version
+- pipenv install --system --deploy --ignore-pipfile
 script:
-  - "flake8"
-  - "python ./manage.py test"
-  - "coveralls"
+- flake8
+- python ./manage.py test
+- coveralls
 cache:
   pip: true
+deploy:
+  app: vacancy-prod
+  provider: heroku
+  api_key:
+    secure: xsjm0zJLqVNmac//HstC6DVpv7th5nOCPNXpvVi//K2Pi18CfU2/TpbeznKbP8lHoDw8k/qU4dKgfKSGsfsZwK5MNdnP+6u0TbJl09p8ODN1OaD1/gIwHdubmHmAWGhQnsBv6/yjEC/ojFJIFzBbxTJiL6qm6oflMgUeM7SNE3YAPUdmXF90r/3jIwiDYJAMXG+Dj3cnwpvc30wuuezZWGUCW4sAzIILBerAklRkLLAsdpRSv5r+RyH1nyXiibSU+1A4L3t3+n0kfIPLooK6sYb1TmQoXqDVPUTvZW2x5QATxKlGmdJIme67GLPC3eQ2Y7k+2SDOuyh5XFL9cWWxBGxIsp7j3WZVZtx54gu5MuXUv7PIEO2fBj7LaZEnwA79MdrgSnR2nXQFUofRJADZCPFkpr59kM5+CFOE6xUQm0RCYAR6yIbmzcSHdns0fsS7MjBjkANaSFVZpE+2JDUHoqDPXIMIsxz5gQ9DG1NNSDJEog5B3biLJignrtDYWTqBeHnuB8FBiyryCp/ZYzXJ5YYCmQ+okvJBxqNGqO5FXGwb+efqgb/lXohUI54hG1AGvwM+nyCvYtktDKkNt3UJrKBwxl1q2tUZALvD6LNMBjm8IFwgT/LclM9OhfDh8ocCe3YGBN0HQXzBrtULq7QpdTrqejm6jxvjGSgHuYl2CSc=

@@ -7,28 +7,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Test(Common):
     DEBUG = True
+    SECRET_KEY = "DJANGO_TEST_ENVIRONENT"
 
     # Testing
     INSTALLED_APPS = Common.INSTALLED_APPS
-    INSTALLED_APPS += ("django_nose",)
-    TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
-    NOSE_ARGS = [
-        BASE_DIR,
-        "-s",
-        "--nologcapture",
-        "--with-coverage",
-        "--with-progressive",
-        "--cover-package=vacancy",
-    ]
 
     DATABASES = {
         "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
     }
 
     # Mail
-    EMAIL_HOST = "localhost"
-    EMAIL_PORT = 1025
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-    # CORS
-    CORS_ORIGIN_ALLOW_ALL = True
+    EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"

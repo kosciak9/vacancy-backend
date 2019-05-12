@@ -37,8 +37,6 @@ class TeamSerializer(serializers.ModelSerializer):
             "hour_count",
             "days_ahead",
             "priority_days_ahead",
-            "priority_fill_date",
-            "fill_date",
         )
 
 
