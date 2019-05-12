@@ -15,8 +15,7 @@ cache:
     - $PIP_CACHE_DIR
     - $PIPENV_CACHE_DIR
 env:
-  - PIP_CACHE_DIR=$HOME/.cache/pip
-  - PIPENV_CACHE_DIR=$HOME/.cache/pipenv
+  - PIP_CACHE_DIR=$HOME/.cache/pip PIPENV_CACHE_DIR=$HOME/.cache/pipenv
 
 deploy:
   provider: heroku
