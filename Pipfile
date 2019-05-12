@@ -35,9 +35,9 @@ pytest-cov = "*"
 pytest-django = "*"
 pytest-pudb = "*"
 mixer = "*"
+flake8 = "*"
 
 [dev-packages]
-flake8 = "*"
 
 [requires]
 python_version = "3.7"
