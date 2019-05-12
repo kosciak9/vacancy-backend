@@ -1,19 +1,21 @@
 language: python
 dist: xenial
 python:
-  - "3.7"
+- '3.7'
 install:
-  - pip install pipenv
-  - pipenv --version
-  - pipenv install --system --deploy --ignore-pipfile
+- pip install pipenv
+- pipenv --version
+- pipenv install --system --deploy --ignore-pipfile
 script:
-  - flake8
-  - pytest
-  - coveralls
+- flake8
+- pytest
+- coveralls
 cache:
   pip: true
 deploy:
-  app: vacancy-prod
   provider: heroku
   api_key:
-    secure: xsjm0zJLqVNmac//HstC6DVpv7th5nOCPNXpvVi//K2Pi18CfU2/TpbeznKbP8lHoDw8k/qU4dKgfKSGsfsZwK5MNdnP+6u0TbJl09p8ODN1OaD1/gIwHdubmHmAWGhQnsBv6/yjEC/ojFJIFzBbxTJiL6qm6oflMgUeM7SNE3YAPUdmXF90r/3jIwiDYJAMXG+Dj3cnwpvc30wuuezZWGUCW4sAzIILBerAklRkLLAsdpRSv5r+RyH1nyXiibSU+1A4L3t3+n0kfIPLooK6sYb1TmQoXqDVPUTvZW2x5QATxKlGmdJIme67GLPC3eQ2Y7k+2SDOuyh5XFL9cWWxBGxIsp7j3WZVZtx54gu5MuXUv7PIEO2fBj7LaZEnwA79MdrgSnR2nXQFUofRJADZCPFkpr59kM5+CFOE6xUQm0RCYAR6yIbmzcSHdns0fsS7MjBjkANaSFVZpE+2JDUHoqDPXIMIsxz5gQ9DG1NNSDJEog5B3biLJignrtDYWTqBeHnuB8FBiyryCp/ZYzXJ5YYCmQ+okvJBxqNGqO5FXGwb+efqgb/lXohUI54hG1AGvwM+nyCvYtktDKkNt3UJrKBwxl1q2tUZALvD6LNMBjm8IFwgT/LclM9OhfDh8ocCe3YGBN0HQXzBrtULq7QpdTrqejm6jxvjGSgHuYl2CSc=
+    secure: drIePZeItMhjoPuHCSfpmktUsV+dJRsVhTHpHy0bCMWRNM+134oWG5mt+k70fs41NUOfdAn384UPTp0T7yJUbpP0NUsdw6GOgq0X0hyVkfwHIj953eiXQy6HJIpVugjAxtwlBQXDgBffBQZA1vO9by67A1tfDV1KUHfJCqQMb8iG3AnGv5eBc3UqXwKeYmlUVbYG1aC2E3I3QSeiR21DeHLMaRgdc6+kqxoBgRnAsnzJXePy6aJdnA36ZZYEOfZtoRy8wJNBdVMxDmdgNplJlPhb3G8XcKa2H84XCWsXi8L4AVdcG67Y0O+1GTbkGGRU5Slh7oN8InVmD3lv+GryuRS9+S8kdn4BHVsKXqFgP4/dH0Sbv/sWWinZ0gdkyLmIc9Z8EkcPQyVOD12m4Tx0/tmzj/FOWbGyqB7kyyM7+/1AhfF4Ewmtj8UsVLhsAESOZ7pQ5FxKVAy8tCPUWpFIgzYPMt4djoeflvaea6eqComoXNCrqu8sREOq/GqGd9PAi2xFau8siZFw/SA+jyS+kZuLigUkeTOAQhm+m6X8XcI5vq0ZgICE+fkEfaFe5s6PB4W5/24AVGXkWsDPHWgm3DzVUEJxJnIFZ9e3n+w/T5gouRN64BzjYIrxIKJBQaY298BoFDsSzMT77DsQwuZsdoT1FVB3CiSsfEBkEuecn54=
+  app: good-vacancy-backend
+  on:
+    repo: kosciak9/vacancy-backend
