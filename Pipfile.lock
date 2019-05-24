@@ -230,11 +230,11 @@
         },
         "djoser": {
             "hashes": [
-                "sha256:a9eaf1b172c40f14be82fd145bfc02de7b3470b085b53169755c2c08fb7bd0a2",
-                "sha256:f311248eda5f14dcfe839b9481721a701aa9b67195b4e7606c234d476cb24cdf"
+                "sha256:4a3aa3ba23a8e2522e1037308fca880ffcc324b65903cb5f851f77ceb64eef0a",
+                "sha256:556b33cda604a517a05e3e48ee2f2c4f7ab982715fd5c78eb53635acceb833f3"
             ],
             "index": "pypi",
-            "version": "==1.5.1"
+            "version": "==1.6.0"
         },
         "docopt": {
             "hashes": [
