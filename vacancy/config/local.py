@@ -6,6 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Local(Common):
+    SECRET_KEY = "DJANGO_LOCAL_ENVIRONENT"
     DEBUG = True
 
     DATABASES = {
