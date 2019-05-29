@@ -12,16 +12,16 @@ class OwnTeamOrPermissionDenied(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         permission = False
 
-        if (
-            request.method in permissions.SAFE_METHODS
-        ) or request.user.team.captain == request.user:
-            if type(obj) is Availability:
-                permission = request.user.team == obj.player.team
+        safe_method = request.method in permissions.SAFE_METHODS
+        team_captain = request.user.team and request.user.team.captain == request.user
 
-            elif type(obj) is User or type(obj) is Position:
-                permission = request.user.team == obj.team
+        if type(obj) is Availability:
+            permission = request.user.team == obj.player.team
 
-            elif type(obj) is Team:
-                permission = request.user.team == obj
+        elif type(obj) is User or type(obj) is Position:
+            permission = request.user.team == obj.team
 
-        return permission
+        elif type(obj) is Team:
+            permission = request.user.team == obj
+
+        return permission and (safe_method or team_captain)
